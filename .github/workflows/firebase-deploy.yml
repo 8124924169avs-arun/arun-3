@@ -23,7 +23,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
           # லாக் ஃபைல் இருக்கும் சரியான பாதை
-          cache-dependency-path: './studio/package-lock.json'
+          cache-dependency-path: "studio/package-lock.json"
 
       - name: Install Dependencies
         run: npm ci
