@@ -2,7 +2,7 @@ name: Deploy to Firebase Hosting on Merge
 on:
   push:
     branches:
-      - main  # உங்கள் பிரான்ச் பெயர் 'main' தானா என்று உறுதி செய்யவும்
+      - main
 
 jobs:
   build_and_deploy:
@@ -14,11 +14,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 2026-ல் ஸ்டேபிள் வெர்ஷன்
+          node-version: '20'
           cache: 'npm'
+          # ஒருவேளை package-lock.json ஒரு போல்டருக்குள் இருந்தால்:
+          # cache-dependency-path: './package-lock.json' 
 
       - name: Install Dependencies
         run: npm ci
+        # உங்கள் package.json ஒரு போல்டருக்குள் இருந்தால் கீழே உள்ள வரியை மாற்றவும் (எ.கா: working-directory: ./my-app)
+        # working-directory: . 
 
       - name: Build Next.js
         run: npm run build
@@ -27,7 +31,9 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' # இது இல்லையெனில் கீழே உள்ள TOKEN-ஐ பயன்படுத்தும்
           projectId: studio-6716244003-ac3a6
+          # முக்கியம்: Next.js க்கான என்ட்ரி பாயிண்ட் (Entry Point)
+          entryPoint: . 
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
