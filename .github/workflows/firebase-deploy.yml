@@ -7,6 +7,12 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    
+    # studio ஃபோல்டருக்குள் வேலை செய்ய அறிவுறுத்துகிறது
+    defaults:
+      run:
+        working-directory: ./studio
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -16,13 +22,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          # ஒருவேளை package-lock.json ஒரு போல்டருக்குள் இருந்தால்:
-          # cache-dependency-path: './package-lock.json' 
+          # லாக் ஃபைல் இருக்கும் சரியான பாதை
+          cache-dependency-path: './studio/package-lock.json'
 
       - name: Install Dependencies
         run: npm ci
-        # உங்கள் package.json ஒரு போல்டருக்குள் இருந்தால் கீழே உள்ள வரியை மாற்றவும் (எ.கா: working-directory: ./my-app)
-        # working-directory: . 
 
       - name: Build Next.js
         run: npm run build
@@ -32,8 +36,8 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           projectId: studio-6716244003-ac3a6
-          # முக்கியம்: Next.js க்கான என்ட்ரி பாயிண்ட் (Entry Point)
-          entryPoint: . 
+          # Firebase எங்கே தேட வேண்டும் என்பதைத் தெரிவிக்கிறது
+          entryPoint: ./studio
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
