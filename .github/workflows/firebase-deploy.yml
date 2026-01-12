@@ -11,7 +11,7 @@ jobs:
     # studio ஃபோல்டருக்குள் வேலை செய்ய அறிவுறுத்துகிறது
     defaults:
       run:
-        working-directory: ./studio
+        working-directory: ./
 
     steps:
       - name: Checkout Repository
@@ -37,7 +37,7 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           projectId: studio-6716244003-ac3a6
           # Firebase எங்கே தேட வேண்டும் என்பதைத் தெரிவிக்கிறது
-          entryPoint: ./studio
+          entryPoint: ./
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
