@@ -8,10 +8,10 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     
-    # studio ஃபோல்டருக்குள் வேலை செய்ய அறிவுறுத்துகிறது
+    # இங்கு './' என்பதற்கு பதிலாக 'studio' என்று மாற்ற வேண்டும்
     defaults:
       run:
-        working-directory: ./
+        working-directory: studio
 
     steps:
       - name: Checkout Repository
@@ -22,7 +22,6 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          # லாக் ஃபைல் இருக்கும் சரியான பாதை
           cache-dependency-path: "studio/package-lock.json"
 
       - name: Install Dependencies
@@ -36,8 +35,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           projectId: studio-6716244003-ac3a6
-          # Firebase எங்கே தேட வேண்டும் என்பதைத் தெரிவிக்கிறது
-          entryPoint: ./
+          # Firebase கான்பிக் கோப்பு எங்குள்ளது என்பதைக் குறிக்கிறது
+          entryPoint: studio
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
